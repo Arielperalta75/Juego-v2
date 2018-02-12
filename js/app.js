@@ -15,10 +15,19 @@ var juegoDulces = {
   init: function(){
     $(".btn-reinicio").on("click", function(){
       switch(juegoActivo){
-        case 0:
-          juegoDulces.iniciarJuego();
-          break;
+        case 1:
+            juegoDulces.reiniciarJuego();
+            juegoActivo = 0;
 
+        case 0:
+        alert("iniciar");
+          juegoDulces.iniciarJuego();
+
+          break;
+        case 2:
+            juegoDulces.reiniciarJuego();
+            alert("reinciado");
+            break;
         default:
           console.log('Error en el estado juegoActivo');
       }
@@ -126,8 +135,165 @@ var juegoDulces = {
       }
       num++;
     }
-  }
+  },
 
+  reiniciarJuego: function(){
+    var col = $("div[class^='col']");
+    for (var i = 0; i < col.length; i++) {
+      $(col[i]).html('');
+    }
+    $('#timer').timer('remove');
+    $(".btn-reinicio").html('Iniciar');
+    $("#timer").html('02:00');
+    $("#movimientos-text").html('0');
+    $("#score-text").html('0');
+    puntuacion = 0;
+    movimientos = 1;
+    this.cargarImagenes();
+    $(".main-titulo-2").remove();
+    $(".panel-score").animate({width: "25%"}, 1000, function(){
+      $(".panel-tablero").show("slide", {direction: "left"}, "slow");
+      $(".time").show("slide", {direction: "left"}, "slow");
+    });
+    juegoActivo = 0;
+  },
+
+  terminarJuego: function(){
+    $(".panel-tablero").hide("slide", {direction: "left"}, "slow", function(){
+      $(".time").hide("slide", {direction: "left"}, "slow");
+      $(".panel-score").animate({width: "390%"}, 1000);
+      if(juegoActivo != 1){
+        $(".panel-score").prepend('<h1 class="main-titulo-2">Juego Terminado</h1>');
+      }
+    });
+  },
+
+  scanRepetidosFil: function(){
+    var imagen = new this.imagenes;
+    var filDiv = new this.obtenerFilas;
+    var fil = new this.obtenerFilas;
+    var objeto = "Fil";
+    for (var n = 0; n < fil.total; n++) {
+      fil[n] = $(fil[n]).find("img");
+    }
+
+    //var conteo = 25;
+    for(var i = 0; i < fil.total; i++){
+      for(var img = 0; img < imagen.total; img++){
+        if($(fil[i][0]).attr("src") == imagen[img] && $(fil[i][1]).attr("src") == imagen[img] && $(fil[i][2]).attr("src") == imagen[img] && $(fil[i][3]).attr("src") == imagen[img] && $(fil[i][4]).attr("src") == imagen[img] && $(fil[i][5]).attr("src") == imagen[img] && $(fil[i][6]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 7;
+          item = {arrays: [0,1,2,3,4,5,6], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([0,1,2,3,4,5,6], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][1]).attr("src") == imagen[img] && $(fil[i][2]).attr("src") == imagen[img] && $(fil[i][3]).attr("src") == imagen[img] && $(fil[i][4]).attr("src") == imagen[img] && $(fil[i][5]).attr("src") == imagen[img] && $(fil[i][6]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 6;
+          item = {arrays: [1,2,3,4,5,6], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([1,2,3,4,5,6], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][0]).attr("src") == imagen[img] && $(fil[i][1]).attr("src") == imagen[img] && $(fil[i][2]).attr("src") == imagen[img] && $(fil[i][3]).attr("src") == imagen[img] && $(fil[i][4]).attr("src") == imagen[img] && $(fil[i][5]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 6;
+          item = {arrays: [0,1,2,3,4,5], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([0,1,2,3,4,5], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][0]).attr("src") == imagen[img] && $(fil[i][1]).attr("src") == imagen[img] && $(fil[i][2]).attr("src") == imagen[img] && $(fil[i][3]).attr("src") == imagen[img] && $(fil[i][4]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 5;
+          item = {arrays: [0,1,2,3,4], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([0,1,2,3,4], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][1]).attr("src") == imagen[img] && $(fil[i][2]).attr("src") == imagen[img] && $(fil[i][3]).attr("src") == imagen[img] && $(fil[i][4]).attr("src") == imagen[img] && $(fil[i][5]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 5;
+          item = {arrays: [1,2,3,4,5], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([1,2,3,4,5], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][2]).attr("src") == imagen[img] && $(fil[i][3]).attr("src") == imagen[img] && $(fil[i][4]).attr("src") == imagen[img] && $(fil[i][5]).attr("src") == imagen[img] && $(fil[i][6]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 5;
+          item = {arrays: [2,3,4,5,6], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([2,3,4,5,6], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][0]).attr("src") == imagen[img] && $(fil[i][1]).attr("src") == imagen[img] && $(fil[i][2]).attr("src") == imagen[img] && $(fil[i][3]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 4;
+          item = {arrays: [0,1,2,3], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([0,1,2,3], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][1]).attr("src") == imagen[img] && $(fil[i][2]).attr("src") == imagen[img] && $(fil[i][3]).attr("src") == imagen[img] && $(fil[i][4]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 4;
+          item = {arrays: [1,2,3,4], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([1,2,3,4], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][2]).attr("src") == imagen[img] && $(fil[i][3]).attr("src") == imagen[img] && $(fil[i][4]).attr("src") == imagen[img] && $(fil[i][5]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 4;
+          item = {arrays: [2,3,4,5], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([2,3,4,5], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][3]).attr("src") == imagen[img] && $(fil[i][4]).attr("src") == imagen[img] && $(fil[i][5]).attr("src") == imagen[img] && $(fil[i][6]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 4;
+          item = {arrays: [3,4,5,6], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([3,4,5,6], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][0]).attr("src") == imagen[img] && $(fil[i][1]).attr("src") == imagen[img] && $(fil[i][2]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 3;
+          item = {arrays: [0,1,2], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([0,1,2], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][1]).attr("src") == imagen[img] && $(fil[i][2]).attr("src") == imagen[img] && $(fil[i][3]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 3;
+          item = {arrays: [1,2,3], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([1,2,3], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][2]).attr("src") == imagen[img] && $(fil[i][3]).attr("src") == imagen[img] && $(fil[i][4]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 3;
+          item = {arrays: [2,3,4], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([2,3,4], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][3]).attr("src") == imagen[img] && $(fil[i][4]).attr("src") == imagen[img] && $(fil[i][5]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 3;
+          item = {arrays: [3,4,5], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([3,4,5], filDiv[i], objeto, i, puntuacion);
+
+        }else if($(fil[i][4]).attr("src") == imagen[img] && $(fil[i][5]).attr("src") == imagen[img] && $(fil[i][6]).attr("src") == imagen[img]){
+
+          puntuacion = puntuacion + 3;
+          item = {arrays: [4,5,6], colFil: filDiv[i], obj: objeto, item: i, puntos: puntuacion};
+          data.push(item);
+          //this.animacionAcertar([4,5,6], filDiv[i], objeto, i, puntuacion);
+
+        }else{
+          //console.log("Opcion no aplicada - Fila");
+        }
+        //conteo--;
+      }
+      //conteo--;
+    }
+    //return conteo;
+  }
 }
 
 $(document).ready(function(){
